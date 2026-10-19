@@ -1,0 +1,4149 @@
+{
+  "version": "synthetic-aws-v3",
+  "count": 139,
+  "sha256": "ecaa6833741951c8eeffc0c42dc7b1b5205dd29e620e8ae032f5397f2c222e1b",
+  "reviewedOn": "2026-10-19",
+  "reviewMethod": "Author and agent policy review before inference; independent human annotation pending. No provider answers used.",
+  "independentReview": {
+    "status": "pending",
+    "reviewer": null
+  },
+  "cases": [
+    {
+      "id": "6f338020539d7ece",
+      "scenario": "probe-role",
+      "scenarioFamily": "policy",
+      "split": "development",
+      "source": "SQS",
+      "environment": "production",
+      "difficulty": "direct",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "SQS caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "authentication",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "authentication is supported by Access to the resource is denied. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=role-audit; disabled replay role rejected by production queue; active consumer processed 760/760; oldest message=0s",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "f230be9e4ff2254d",
+      "scenario": "resolver-outage",
+      "scenarioFamily": "dns",
+      "split": "development",
+      "source": "SQS",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "SQS caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "dependency_failure",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "dependency_failure is supported by getaddrinfo ENOTFOUND sqs.us-east-1.amazonaws.com. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=order-events; resolver failed on 240/240 sends in 8m; captured payments awaiting event publication=240",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "b5c49a9f6dac2938",
+      "scenario": "invalid-sql-customer",
+      "scenarioFamily": "input-validation",
+      "split": "development",
+      "source": "RDS MySQL",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-mysql80-general",
+          "source": "RDS MySQL 8.0 writer general",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "node24-client-json",
+          "source": "RDS MySQL caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "other",
+      "expectedRequiresAttention": true,
+      "counterpartOf": "invalid-sql-test",
+      "categoryReason": "The visible ER_PARSE_ERROR observation and workflow evidence support a local defect, input/consistency condition, or unknown cause: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FROM orders' at line 1. None establishes a rate, access, or downstream availability cause.",
+      "attentionReason": "workflow=order-read; client query text is SELECT FROM orders; 418/420 customer requests returned syntax errors in 8m; two requests used the previous client; latest request at 09:59:36Z also failed; customer order histories unavailable",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "674f0c4f53fcedb3",
+      "scenario": "old-login",
+      "scenarioFamily": "credentials",
+      "split": "development",
+      "source": "RDS MySQL",
+      "environment": "production",
+      "difficulty": "direct",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-mysql80-general",
+          "source": "RDS MySQL 8.0 observer replica general",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "node24-client-json",
+          "source": "RDS MySQL caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "authentication",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "authentication is supported by Access denied for user 'worker'@'192.0.2.44' (using password: YES). The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=secret-rotation-check; retired credential rejected; current credential committed test row at 09:59:35Z; customer writes=950/950",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "ca55263222882fbe",
+      "scenario": "quota-tenant",
+      "scenarioFamily": "hourly-quota",
+      "split": "held-out",
+      "source": "API Gateway",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "apigw-rest-json",
+          "source": "API Gateway REST access",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "throttling",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "throttling is supported by Usage plan quota exceeded. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=warehouse-api; one tenant exhausted daily quota; fleet success=99%; tenant rejects=240/240 in 9m; 240 paid shipments due in 7m",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "f08c64f2045fc0f5",
+      "scenario": "fallback-stale-cohort",
+      "scenarioFamily": "fallback",
+      "split": "development",
+      "source": "DynamoDB",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "DynamoDB caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "dependency_failure",
+      "expectedRequiresAttention": true,
+      "counterpartOf": "read-fallback",
+      "categoryReason": "dependency_failure is supported by The server encountered an internal error trying to fulfill the request. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=public-catalog; snapshot served 120 requests at 09:59:26Z; version audit found 72 prices older than customer contract; live reads still return 500; 72 purchases awaiting a valid price; snapshot cannot serve those products",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "eb0f2228eeac0a67",
+      "scenario": "read-fallback",
+      "scenarioFamily": "fallback",
+      "split": "development",
+      "source": "DynamoDB",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "DynamoDB caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "dependency_failure",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "dependency_failure is supported by The server encountered an internal error trying to fulfill the request. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=public-catalog; 8 reads failed; immutable catalog snapshot served all 8 with matching version; product page success=2300/2300",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "86a822975badd1b1",
+      "scenario": "opaque-504",
+      "scenarioFamily": "unknown-timeout",
+      "split": "held-out",
+      "source": "API Gateway",
+      "environment": "production",
+      "difficulty": "uncertain",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "apigw-rest-json",
+          "source": "API Gateway REST access",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "other",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "The visible - observation and workflow evidence support a local defect, input/consistency condition, or unknown cause: Application returned 504 without diagnostic trace. None establishes a rate, access, or downstream availability cause.",
+      "attentionReason": "workflow=recommendations; access status=504 from integration response; no gateway error type; integration traces unavailable; subsequent requests=2300/2300; isolated affected request",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "No visible causal trace: retain other. An isolated recovered observation does not establish ongoing material harm."
+    },
+    {
+      "id": "4a3a6909b3e50d4b",
+      "scenario": "marshal-defect",
+      "scenarioFamily": "application-defect",
+      "split": "development",
+      "source": "DynamoDB",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "DynamoDB caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "other",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "The visible TypeError observation and workflow evidence support a local defect, input/consistency condition, or unknown cause: Cannot convert undefined or null to object. None establishes a rate, access, or downstream availability cause.",
+      "attentionReason": "workflow=order-persist; local serialization failed before SDK send=420/420; durable orders written=0; payment captures awaiting orders=420",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "1de29c9502110d6d",
+      "scenario": "lock-wait-loop",
+      "scenarioFamily": "lock-contention",
+      "split": "development",
+      "source": "RDS MySQL",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-mysql80-general",
+          "source": "RDS MySQL 8.0 writer general",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "node24-client-json",
+          "source": "RDS MySQL caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "other",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "The visible ER_LOCK_WAIT_TIMEOUT observation and workflow evidence support a local defect, input/consistency condition, or unknown cause: Lock wait timeout exceeded; try restarting transaction. None establishes a rate, access, or downstream availability cause.",
+      "attentionReason": "workflow=payment-state; transaction holds row lock; retry loop blocked 340/340 updates for 20m; customer payment status remains pending beyond 5m target",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "deba3c1dc147ed71",
+      "scenario": "old-receipt",
+      "scenarioFamily": "input-validation",
+      "split": "development",
+      "source": "SQS",
+      "environment": "production",
+      "difficulty": "direct",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "SQS caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "other",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "The visible ReceiptHandleIsInvalid observation and workflow evidence support a local defect, input/consistency condition, or unknown cause: The input receipt handle is invalid. None establishes a rate, access, or downstream availability cause.",
+      "attentionReason": "workflow=ack-cleanup; stale handle rejected after another worker deleted message; unique completions=900/900; visible backlog=0",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "495d0163e64fa7c6",
+      "scenario": "timeout-cancel",
+      "scenarioFamily": "input-validation",
+      "split": "development",
+      "source": "RDS PostgreSQL",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-pg16-stderr",
+          "source": "RDS PostgreSQL 16 stderr",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "other",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "The visible ERROR observation and workflow evidence support a local defect, input/consistency condition, or unknown cause: canceling statement due to statement timeout. None establishes a rate, access, or downstream availability cause.",
+      "attentionReason": "workflow=query-timeout-test; synthetic pg_sleep exceeded configured 100ms deadline; customer queries=1800/1800; no pending test work",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "7648155828a8728e",
+      "scenario": "network-read-reset",
+      "scenarioFamily": "network-reset",
+      "split": "held-out",
+      "source": "RDS PostgreSQL",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-pg16-stderr",
+          "source": "RDS PostgreSQL 16 stderr",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "dependency_failure",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "dependency_failure is supported by could not receive data from client: Connection reset by peer. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=invoice-write; network probe also resets connections; invoice writes unacknowledged=240/250 in 12m; reconciliation missing=240; retry path still resetting",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "00822703fc36b081",
+      "scenario": "async-consumer-cap",
+      "scenarioFamily": "consumer-cap",
+      "split": "development",
+      "source": "Lambda",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "lambda-node22-text",
+          "source": "Lambda orchestrator",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "throttling",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "throttling is supported by ReservedFunctionConcurrentInvocationLimitExceeded. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=receipt-delivery; accepted API responses=2200/2200; child invocations rejected=870 in 8m; receipt queue age=26m and rising; promised delivery=10m",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "5b3d67b06c310f4f",
+      "scenario": "shared-stage",
+      "scenarioFamily": "account-cap",
+      "split": "development",
+      "source": "API Gateway",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "apigw-rest-json",
+          "source": "API Gateway REST access",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "throttling",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "throttling is supported by Stage request rate exceeded. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=inventory-availability; stage rate shared with crawler; customer availability errors=830/900; crawler stopped but latest minute still rejected=82/90",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "5ef1aff98ffbb214",
+      "scenario": "issuer-reject",
+      "scenarioFamily": "credentials",
+      "split": "development",
+      "source": "API Gateway",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "apigw-rest-json",
+          "source": "API Gateway REST access",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "authentication",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "authentication is supported by Unauthorized. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=subscription-list; new issuer tokens rejected=670/680 over 11m; previous issuer no longer issues tokens; paid users unable to load account subscriptions",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "844367d3257be6f8",
+      "scenario": "expired-dev-session",
+      "scenarioFamily": "credentials",
+      "split": "development",
+      "source": "DynamoDB",
+      "environment": "staging",
+      "difficulty": "direct",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "DynamoDB caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "authentication",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "authentication is supported by The security token included in the request is expired. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=schema-inspection; interactive developer session expired; no customer workload on this role; production table reads=1100/1100",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "5220b212ce45be76",
+      "scenario": "fifo-send-rate",
+      "scenarioFamily": "fifo-rate",
+      "split": "development",
+      "source": "SQS",
+      "environment": "production",
+      "difficulty": "direct",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "SQS caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "throttling",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "throttling is supported by The request was denied due to request throttling. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=dispatch; FIFO sends rejected=280/300 in 6m; paid shipments waiting to enqueue=280; no later acknowledgements",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "b7b9a933267f8886",
+      "scenario": "connect-timeout",
+      "scenarioFamily": "remote-timeout",
+      "split": "development",
+      "source": "DynamoDB",
+      "environment": "production",
+      "difficulty": "uncertain",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "DynamoDB caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "dependency_failure",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "dependency_failure is supported by Socket timed out without establishing a connection. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=loyalty-redemption; 94 consecutive connection attempts expired over 12m; redemptions waiting=94; no later acknowledgement visible",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "e550a0328c5d66e1",
+      "scenario": "schema-canary-stopped",
+      "scenarioFamily": "schema-change",
+      "split": "held-out",
+      "source": "RDS PostgreSQL",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-pg16-stderr",
+          "source": "RDS PostgreSQL 16 stderr",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "other",
+      "expectedRequiresAttention": false,
+      "counterpartOf": "missing-column",
+      "categoryReason": "The visible ERROR observation and workflow evidence support a local defect, input/consistency condition, or unknown cause: column \"total_cents\" does not exist. None establishes a rate, access, or downstream availability cause.",
+      "attentionReason": "workflow=invoice-read; canary query references absent total_cents column; rollout stopped before customer routing; active query uses total_amount and served 300/300 customer downloads; no invoices pending",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "ffe4d973e7afa012",
+      "scenario": "rotated-session",
+      "scenarioFamily": "credentials",
+      "split": "development",
+      "source": "Lambda",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "lambda-node22-text",
+          "source": "Lambda orchestrator",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "authentication",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "authentication is supported by The security token included in the request is expired. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=inventory-refresh; stale assumed-role session rejected once; refreshed session completed the same job at 09:59:18Z; pending refreshes=0; stock reads within 1m target",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "02ee790ca57009ad",
+      "scenario": "tls-proxy",
+      "scenarioFamily": "tls",
+      "split": "development",
+      "source": "RDS MySQL",
+      "environment": "production",
+      "difficulty": "uncertain",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-mysql80-general",
+          "source": "RDS MySQL 8.0 observer replica general",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "node24-client-json",
+          "source": "RDS MySQL caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "dependency_failure",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "dependency_failure is supported by certificate has expired. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=subscription-store; proxy TLS handshake fails before authentication; renewals failed=172/180; expiring subscriptions waiting=172; newest attempt also fails",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "647bfbccd81a094a",
+      "scenario": "tls-secondary-recovered",
+      "scenarioFamily": "tls",
+      "split": "development",
+      "source": "SQS",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "SQS caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "dependency_failure",
+      "expectedRequiresAttention": false,
+      "counterpartOf": "tls-cert",
+      "categoryReason": "dependency_failure is supported by certificate has expired. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=booking-events; one proxy TLS handshake failed; second configured proxy accepted the event at 09:59:05Z; ticket confirmations=165/165; no unpublished booking events; latest 80 sends succeeded",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "c4696392b343f78d",
+      "scenario": "reset-upload",
+      "scenarioFamily": "network-reset",
+      "split": "held-out",
+      "source": "Lambda",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "lambda-node22-text",
+          "source": "Lambda orchestrator",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "dependency_failure",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "dependency_failure is supported by socket hang up. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=document-generation; render connections reset on 87/90 attempts in 7m; paid documents waiting=87; download availability=3/90",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "fe660315e5205aa8",
+      "scenario": "deadlock-repeat",
+      "scenarioFamily": "lock-contention",
+      "split": "development",
+      "source": "RDS PostgreSQL",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-pg16-stderr",
+          "source": "RDS PostgreSQL 16 stderr",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "other",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "The visible ERROR observation and workflow evidence support a local defect, input/consistency condition, or unknown cause: deadlock detected. None establishes a rate, access, or downstream availability cause.",
+      "attentionReason": "workflow=shipment-state; conflicting update order repeats every retry; batches failed=62/62 in 18m; paid shipments waiting=620; no progress after retries",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "ded160dd6dd8dc68",
+      "scenario": "address-retry",
+      "scenarioFamily": "remote-timeout",
+      "split": "development",
+      "source": "Lambda",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "lambda-node22-text",
+          "source": "Lambda orchestrator",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "dependency_failure",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "dependency_failure is supported by Address service deadline exceeded. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=address-validation; initial call timed out; retry succeeded at 09:59:29Z; shipping requests=500/500; repeated timeouts=0 in last 5m",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "a6f3cd65ecc965e6",
+      "scenario": "authorizer-connect",
+      "scenarioFamily": "dns",
+      "split": "development",
+      "source": "API Gateway",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "apigw-rest-json",
+          "source": "API Gateway REST access",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "dependency_failure",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "dependency_failure is supported by Authorizer connection failed. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=ticket-download; authorizer endpoint DNS lookup fails in independent probe; gateway 500s=260/270; paid ticket downloads blocked=260",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "705aa4ede244e3a9",
+      "scenario": "quota-archive",
+      "scenarioFamily": "hourly-quota",
+      "split": "held-out",
+      "source": "API Gateway",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "apigw-rest-json",
+          "source": "API Gateway REST access",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "throttling",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "throttling is supported by Usage plan quota exceeded. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=archive-export; optional historical export quota reached; live invoice reads=1700/1700; next export deadline tomorrow; no pending current invoices",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "6a6ca936e70049ee",
+      "scenario": "table-grant",
+      "scenarioFamily": "policy",
+      "split": "development",
+      "source": "RDS MySQL",
+      "environment": "production",
+      "difficulty": "direct",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-mysql80-general",
+          "source": "RDS MySQL 8.0 writer general",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "node24-client-json",
+          "source": "RDS MySQL caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "authentication",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "authentication is supported by SELECT command denied to user 'worker'@'192.0.2.44' for table 'orders'. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=order-details; SELECT grant removed; requests fail=640/650 over 10m; paid customers cannot view orders",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "bbd047466cf90749",
+      "scenario": "probe-shared-customers",
+      "scenarioFamily": "rate-probe",
+      "split": "development",
+      "source": "Lambda",
+      "environment": "staging",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "lambda-node22-text",
+          "source": "Lambda orchestrator",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "throttling",
+      "expectedRequiresAttention": true,
+      "counterpartOf": "probe-rate",
+      "categoryReason": "throttling is supported by ReservedFunctionConcurrentInvocationLimitExceeded. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=capacity-probe; paid shipping work also routed to this stage; capacity test consumed shared function slots; 183/190 paid invocations rejected in 5m; test stopped at 09:59:48Z but latest 12 paid calls still rejected; labels due in 2m",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "2096a5f601713f00",
+      "scenario": "invalid-key-audit",
+      "scenarioFamily": "policy",
+      "split": "development",
+      "source": "API Gateway",
+      "environment": "production",
+      "difficulty": "uncertain",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "apigw-rest-json",
+          "source": "API Gateway REST access",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "authentication",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "authentication is supported by Forbidden. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=key-retirement-audit; retired test key rejected; active customer keys returned 200 for 450/450 requests; zero customer reports pending",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "861b2ef261438460",
+      "scenario": "signature-probe",
+      "scenarioFamily": "signature",
+      "split": "held-out",
+      "source": "SQS",
+      "environment": "production",
+      "difficulty": "uncertain",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "SQS caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "authentication",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "authentication is supported by The request was not made using valid credentials. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=signer-smoke-test; deliberately malformed test signature rejected; regular publisher sent 580/580 customer messages; pending customer sends=0",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "0310d0eb6d319b91",
+      "scenario": "condition-retry-starvation",
+      "scenarioFamily": "conditional-write",
+      "split": "development",
+      "source": "DynamoDB",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "DynamoDB caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "other",
+      "expectedRequiresAttention": true,
+      "counterpartOf": "condition-race",
+      "categoryReason": "The visible ConditionalCheckFailedException observation and workflow evidence support a local defect, input/consistency condition, or unknown cause: The conditional request failed. None establishes a rate, access, or downstream availability cause.",
+      "attentionReason": "workflow=receipt-commit; conditional version check rejected 260/260 attempts in 9m; reconciliation finds no committed receipt for these payments; latest retry rejected at 09:59:49Z; receipt deadline=10m; oldest unreceipted payment=16m",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "0dc2666e97e84a5a",
+      "scenario": "server-connection-cap",
+      "scenarioFamily": "connection-cap",
+      "split": "development",
+      "source": "RDS MySQL",
+      "environment": "production",
+      "difficulty": "direct",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-mysql80-general",
+          "source": "RDS MySQL 8.0 observer replica general",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "node24-client-json",
+          "source": "RDS MySQL caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "throttling",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "throttling is supported by Too many connections. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=reservation-store; max_connections=120; clients connected=120; new connection rejects=389/400 in 10m; bookings cannot commit",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "384b66649d906955",
+      "scenario": "old-function-role",
+      "scenarioFamily": "policy",
+      "split": "development",
+      "source": "RDS PostgreSQL",
+      "environment": "production",
+      "difficulty": "uncertain",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-pg16-stderr",
+          "source": "RDS PostgreSQL 16 stderr",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "authentication",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "authentication is supported by permission denied for function rebuild_cache. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=retired-cache-job; obsolete role attempted maintenance function; active cache current as of 09:59; customer reads=850/850",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "b03319a39eb6317a",
+      "scenario": "user-session-retry",
+      "scenarioFamily": "connection-cap",
+      "split": "development",
+      "source": "RDS MySQL",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-mysql80-general",
+          "source": "RDS MySQL 8.0 observer replica general",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "node24-client-json",
+          "source": "RDS MySQL caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "throttling",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "throttling is supported by User worker already has more than 'max_user_connections' active connections. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=export-worker; max_user_connections=2; rejected job retried after existing jobs finished at 09:59:31Z; files delivered=80/80",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "50abb33a9f15e27f",
+      "scenario": "timeout-unclear",
+      "scenarioFamily": "unknown-timeout",
+      "split": "held-out",
+      "source": "Lambda",
+      "environment": "production",
+      "difficulty": "uncertain",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "lambda-node22-text",
+          "source": "Lambda orchestrator",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "other",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "The visible Observation observation and workflow evidence support a local defect, input/consistency condition, or unknown cause: deadline reached without a dependency span. None establishes a rate, access, or downstream availability cause.",
+      "attentionReason": "workflow=recommendations; one request returned 504; no further failures in 10m; trace sampling dropped the failed span; subsequent requests=2300/2300",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "No visible causal trace: retain other. An isolated recovered observation does not establish ongoing material harm."
+    },
+    {
+      "id": "536b6a7fc79ef3ec",
+      "scenario": "unknown-budget-sustained",
+      "scenarioFamily": "unknown-timeout",
+      "split": "held-out",
+      "source": "Lambda",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "lambda-node22-text",
+          "source": "Lambda orchestrator",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "other",
+      "expectedRequiresAttention": true,
+      "counterpartOf": "timeout-unclear",
+      "categoryReason": "The visible Observation observation and workflow evidence support a local defect, input/consistency condition, or unknown cause: deadline reached without a dependency span. None establishes a rate, access, or downstream availability cause.",
+      "attentionReason": "workflow=account-renewal; request deadlines exceeded on 84/90 attempts in 12m; latest failure at 09:59:46Z; dependency spans and local execution traces missing; 84 renewals remain unconfirmed; no successful completion after 09:55",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "No visible causal trace: retain other. Repeated failures and overdue customer work require attention despite unknown cause."
+    },
+    {
+      "id": "c2928d0452f6cec3",
+      "scenario": "socket-recovered",
+      "scenarioFamily": "network-reset",
+      "split": "held-out",
+      "source": "RDS MySQL",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-mysql80-general",
+          "source": "RDS MySQL 8.0 observer replica general",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "node24-client-json",
+          "source": "RDS MySQL caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "dependency_failure",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "dependency_failure is supported by read ECONNRESET. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=session-store; one connection reset; new session wrote state at 09:59:48Z; user requests=1500/1500 after retry; pending writes=0",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "d341f3da077fce3c",
+      "scenario": "test-send-quota",
+      "scenarioFamily": "rate-probe",
+      "split": "development",
+      "source": "SQS",
+      "environment": "staging",
+      "difficulty": "direct",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "SQS caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "throttling",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "throttling is supported by The request was denied due to request throttling. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=queue-capacity-test; test load stopped at 09:59:03Z; no customer messages in queue; production dispatch=430/430",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "270551f023bd4375",
+      "scenario": "concurrency-drained",
+      "scenarioFamily": "concurrency",
+      "split": "development",
+      "source": "Lambda",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "lambda-node22-text",
+          "source": "Lambda orchestrator",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "throttling",
+      "expectedRequiresAttention": false,
+      "counterpartOf": "child-concurrency",
+      "categoryReason": "throttling is supported by ConcurrentInvocationLimitExceeded. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=checkout; child reserved concurrency=4; one burst rejected 3 invocations; client retries completed all 400 checkouts; newest 90 calls accepted; pending customer requests=0",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "8159ec700a68690d",
+      "scenario": "normal-error-word",
+      "scenarioFamily": "benign-signal",
+      "split": "development",
+      "source": "Lambda",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "lambda-node22-text",
+          "source": "Lambda orchestrator",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "other",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "The visible ValidationResult observation and workflow evidence support a local defect, input/consistency condition, or unknown cause: fixture named AccessDeniedException matched its expected text. None establishes a rate, access, or downstream availability cause.",
+      "attentionReason": "workflow=parser-self-test; local string assertion passed; no AWS call attempted; customer jobs=190/190; pending jobs=0",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "e90a639cddc1361e",
+      "scenario": "schema-grant-probe",
+      "scenarioFamily": "policy",
+      "split": "development",
+      "source": "RDS PostgreSQL",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-pg16-stderr",
+          "source": "RDS PostgreSQL 16 stderr",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "authentication",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "authentication is supported by permission denied for schema private. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=least-privilege-test; test attempts restricted audit schema; expected restricted operation rejected; customer order reads=460/460",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "07327bfd43fd008f",
+      "scenario": "dns-writer",
+      "scenarioFamily": "dns",
+      "split": "development",
+      "source": "RDS MySQL",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-mysql80-general",
+          "source": "RDS MySQL 8.0 observer replica general",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "node24-client-json",
+          "source": "RDS MySQL caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "dependency_failure",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "dependency_failure is supported by getaddrinfo ENOTFOUND writer.example.invalid. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=booking-ledger; writer name lookup failed=250/250 in 8m; confirmed bookings await ledger commit; read replica health probe succeeds",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "74b36a16a0eee46b",
+      "scenario": "storage-archive-recovered",
+      "scenarioFamily": "storage",
+      "split": "development",
+      "source": "RDS PostgreSQL",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-pg16-stderr",
+          "source": "RDS PostgreSQL 16 stderr",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "dependency_failure",
+      "expectedRequiresAttention": false,
+      "counterpartOf": "storage-unavailable",
+      "categoryReason": "dependency_failure is supported by could not extend file \"base/16384/16400\": No space left on device. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=historical-order-copy; optional archive database storage exhausted; archive job paused; live writer on separate instance committed 270/270 purchases; archive retention deadline slack=14 days; no customer reads use archive",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "0a5a3da2a82b6193",
+      "scenario": "empty-poll",
+      "scenarioFamily": "benign-signal",
+      "split": "development",
+      "source": "SQS",
+      "environment": "production",
+      "difficulty": "uncertain",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "SQS caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "other",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "The visible Observation observation and workflow evidence support a local defect, input/consistency condition, or unknown cause: Long poll returned no messages. None establishes a rate, access, or downstream availability cause.",
+      "attentionReason": "workflow=statement-delivery; empty receives=20; producer reconciliation=840/840 statements delivered; visible and in-flight counts=0; upstream published count=840",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "cc382f2cc2c4b3e2",
+      "scenario": "quarantined-message",
+      "scenarioFamily": "application-defect",
+      "split": "development",
+      "source": "SQS",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "SQS caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "other",
+      "expectedRequiresAttention": false,
+      "counterpartOf": "poison-loop",
+      "categoryReason": "The visible SyntaxError observation and workflow evidence support a local defect, input/consistency condition, or unknown cause: Unexpected token in message JSON. None establishes a rate, access, or downstream availability cause.",
+      "attentionReason": "workflow=refund-processing; malformed replay message quarantined after one receive; original refund reconciles; 420/420 customer refunds completed; quarantine contains no unprocessed customer refunds",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "f12f291553e76407",
+      "scenario": "scheduled-export",
+      "scenarioFamily": "account-cap",
+      "split": "development",
+      "source": "DynamoDB",
+      "environment": "production",
+      "difficulty": "direct",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "DynamoDB caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "throttling",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "throttling is supported by Throughput exceeds the current throughput quota for your account. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=analytics-export; export paused under account quota; next required delivery tomorrow; interactive reads=900/900; export deadline slack=18h",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "1868f367e0940498",
+      "scenario": "kms-key-denial",
+      "scenarioFamily": "kms-access",
+      "split": "development",
+      "source": "DynamoDB",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "DynamoDB caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "authentication",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "authentication is supported by Access to the encryption key was denied. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=transaction-journal; KMS key policy updated; journal writes denied=230/230 over 7m; posting waits for durable journal commit",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "5a7a5b62ceddd214",
+      "scenario": "batch-burst",
+      "scenarioFamily": "burst",
+      "split": "development",
+      "source": "Lambda",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "lambda-node22-text",
+          "source": "Lambda orchestrator",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "throttling",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "throttling is supported by ReservedFunctionConcurrentInvocationLimitExceeded. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=nightly-catalog; batch burst rejected 2 calls; application retried both successfully at 09:59:28Z; pending jobs=0; product reads=3000/3000",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "84b5fa6cf044d824",
+      "scenario": "connect-grant",
+      "scenarioFamily": "policy",
+      "split": "development",
+      "source": "RDS PostgreSQL",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-pg16-stderr",
+          "source": "RDS PostgreSQL 16 stderr",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "authentication",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "authentication is supported by permission denied for database \"appdb\". The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=wallet-history; CONNECT privilege removed from active worker role; requests failed=340/340 since 09:52; history pages unavailable",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "56ae3b3f8592f52a",
+      "scenario": "delete-pressure",
+      "scenarioFamily": "consumer-cap",
+      "split": "development",
+      "source": "SQS",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "SQS caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "throttling",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "throttling is supported by The request was denied due to request throttling. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=payment-confirmation; delete rejections=950 in 8m; unacked messages filling workers; unique pending confirmations=710; oldest message=31m; duplicate detector active",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "4fd74354393c80b6",
+      "scenario": "write-cap-cohort",
+      "scenarioFamily": "consumer-cap",
+      "split": "development",
+      "source": "DynamoDB",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "DynamoDB caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "throttling",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "throttling is supported by Throughput exceeds the current capacity of your table or index. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=seat-allocation; aggregate success=99.5%; affected event partition rejected 117/120 writes; 117 paid reservations expire in 3m",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "f8001333a4414e86",
+      "scenario": "kms-rate-retry",
+      "scenarioFamily": "kms-quota",
+      "split": "held-out",
+      "source": "SQS",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "SQS caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "throttling",
+      "expectedRequiresAttention": false,
+      "counterpartOf": "kms-request-rate",
+      "categoryReason": "throttling is supported by The request was denied due to request throttling. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=invoice-enqueue; one encrypted queue send exceeded KMS request rate; backoff completed the send; unique invoice events accepted=360/360; unpublished invoices=0; oldest pending send=0s",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "336a2a3b2dcda2a0",
+      "scenario": "ambiguous-budget",
+      "scenarioFamily": "unknown-timeout",
+      "split": "held-out",
+      "source": "DynamoDB",
+      "environment": "production",
+      "difficulty": "uncertain",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "DynamoDB caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "other",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "The visible Observation observation and workflow evidence support a local defect, input/consistency condition, or unknown cause: Request deadline elapsed; SDK completion was not captured. None establishes a rate, access, or downstream availability cause.",
+      "attentionReason": "workflow=dashboard-refresh; one client deadline; server trace missing; next 600 refreshes succeeded; no repeated delays in 10m",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "No visible causal trace: retain other. An isolated recovered observation does not establish ongoing material harm."
+    },
+    {
+      "id": "325cab7beb37bb27",
+      "scenario": "deadlock-recovered",
+      "scenarioFamily": "lock-contention",
+      "split": "development",
+      "source": "RDS PostgreSQL",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-pg16-stderr",
+          "source": "RDS PostgreSQL 16 stderr",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "other",
+      "expectedRequiresAttention": false,
+      "counterpartOf": "deadlock-repeat",
+      "categoryReason": "The visible ERROR observation and workflow evidence support a local defect, input/consistency condition, or unknown cause: deadlock detected. None establishes a rate, access, or downstream availability cause.",
+      "attentionReason": "workflow=shipment-state; two transactions acquired rows in opposite order; one deadlock victim retried after 120ms; 620/620 shipments updated; oldest pending shipment=0s; latest 200 writes committed",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "bc11e76daf6c8599",
+      "scenario": "cached-weather",
+      "scenarioFamily": "fallback",
+      "split": "development",
+      "source": "API Gateway",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "apigw-rest-json",
+          "source": "API Gateway REST access",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "dependency_failure",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "dependency_failure is supported by Integration failed. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=weather-widget; optional origin fetch failed twice; verified cached forecast served; trip bookings=610/610; forecast age=3m within 15m target",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "2adde51e1108ea63",
+      "scenario": "role-limit-retry",
+      "scenarioFamily": "connection-cap",
+      "split": "development",
+      "source": "RDS PostgreSQL",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-pg16-stderr",
+          "source": "RDS PostgreSQL 16 stderr",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "throttling",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "throttling is supported by too many connections for role \"worker\". The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=report-worker; role connection limit=2; one job rejected while two completed; retry committed at 09:59:24Z; remaining jobs=0; reports due=40 and delivered=40",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "ef3550c5ffa93f34",
+      "scenario": "missing-column",
+      "scenarioFamily": "schema-change",
+      "split": "held-out",
+      "source": "RDS PostgreSQL",
+      "environment": "production",
+      "difficulty": "direct",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-pg16-stderr",
+          "source": "RDS PostgreSQL 16 stderr",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "other",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "The visible ERROR observation and workflow evidence support a local defect, input/consistency condition, or unknown cause: column \"total_cents\" does not exist. None establishes a rate, access, or downstream availability cause.",
+      "attentionReason": "workflow=invoice-read; application release references missing column; requests fail=290/300; customer invoice downloads unavailable",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "52cbcdb944e44ee6",
+      "scenario": "hourly-queries",
+      "scenarioFamily": "hourly-quota",
+      "split": "held-out",
+      "source": "RDS MySQL",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-mysql80-general",
+          "source": "RDS MySQL 8.0 writer general",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "node24-client-json",
+          "source": "RDS MySQL caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "throttling",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "throttling is supported by User 'worker' has exceeded the 'max_questions' resource (current value: 100). The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=pricing-read; hourly query quota reached after 100 queries; customer price reads rejected=280/280; quota reset in 42m",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "62c9ced81a5e0c5e",
+      "scenario": "poison-loop",
+      "scenarioFamily": "application-defect",
+      "split": "development",
+      "source": "SQS",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "SQS caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "other",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "The visible SyntaxError observation and workflow evidence support a local defect, input/consistency condition, or unknown cause: Unexpected token in message JSON. None establishes a rate, access, or downstream availability cause.",
+      "attentionReason": "workflow=refund-processing; same 46 messages returned repeatedly; receive count=18; no completed refunds for 25m; oldest message=41m",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "afcde43f5208ab3e",
+      "scenario": "condition-race",
+      "scenarioFamily": "conditional-write",
+      "split": "development",
+      "source": "DynamoDB",
+      "environment": "production",
+      "difficulty": "direct",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "DynamoDB caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "other",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "The visible ConditionalCheckFailedException observation and workflow evidence support a local defect, input/consistency condition, or unknown cause: The conditional request failed. None establishes a rate, access, or downstream availability cause.",
+      "attentionReason": "workflow=idempotent-receipts; duplicate event rejected by condition; original receipt already committed; unique receipts=800/800; duplicate charges=0",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "d95374658739423f",
+      "scenario": "shutdown-window",
+      "scenarioFamily": "db-shutdown",
+      "split": "development",
+      "source": "RDS PostgreSQL",
+      "environment": "production",
+      "difficulty": "direct",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-pg16-stderr",
+          "source": "RDS PostgreSQL 16 stderr",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "dependency_failure",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "dependency_failure is supported by terminating connection due to administrator command. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=checkout-ledger; current writer terminated; replacement connections refused continuously for 9m; checkout commits=0/410; no active writer available",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "f775a6a68584bc08",
+      "scenario": "fifo-rate-buffered",
+      "scenarioFamily": "fifo-rate",
+      "split": "development",
+      "source": "SQS",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "SQS caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "throttling",
+      "expectedRequiresAttention": false,
+      "counterpartOf": "fifo-send-rate",
+      "categoryReason": "throttling is supported by The request was denied due to request throttling. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=dispatch; 3 FIFO sends rejected during a batch; application buffer drained after backoff; shipment enqueue acknowledgements=300/300; duplicate shipment IDs=0; dispatch deadline slack=6h",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "4ee7ce418733ee81",
+      "scenario": "restricted-admin",
+      "scenarioFamily": "policy",
+      "split": "development",
+      "source": "RDS MySQL",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-mysql80-general",
+          "source": "RDS MySQL 8.0 writer general",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "node24-client-json",
+          "source": "RDS MySQL caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "authentication",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "authentication is supported by Access denied; you need (at least one of) the RELOAD privilege(s) for this operation. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=privilege-audit; restricted maintenance command rejected; application role never uses this command; customer queries=1800/1800",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "099f59de27473f79",
+      "scenario": "connection-reset",
+      "scenarioFamily": "network-reset",
+      "split": "held-out",
+      "source": "DynamoDB",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "DynamoDB caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "dependency_failure",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "dependency_failure is supported by read ECONNRESET. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=invoice-index; 39 batches lost connection before acknowledgement; reconciliation finds 390 invoices absent; backlog age rose from 2m to 21m",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "2378e11aeba9f017",
+      "scenario": "upstream-optional-recovered",
+      "scenarioFamily": "upstream-http",
+      "split": "development",
+      "source": "Lambda",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "lambda-node22-text",
+          "source": "Lambda orchestrator",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "dependency_failure",
+      "expectedRequiresAttention": false,
+      "counterpartOf": "inventory-upstream",
+      "categoryReason": "dependency_failure is supported by Service Unavailable. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=cart-enrichment; optional inventory detail request returned 503; local signed inventory feed served all 400 reservations with matching stock version; completed carts=400/400; pending reservations=0",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "cee874c2aca64599",
+      "scenario": "integration-down",
+      "scenarioFamily": "upstream-http",
+      "split": "development",
+      "source": "API Gateway",
+      "environment": "production",
+      "difficulty": "direct",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "apigw-rest-json",
+          "source": "API Gateway REST access",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "dependency_failure",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "dependency_failure is supported by Integration failed. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=reservation; integration health endpoint returns 503; gateway failures=390/400 in 8m; confirmed reservations=10; latest health probe still 503",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "ad52055fbf37db3e",
+      "scenario": "empty-poll-missing-work",
+      "scenarioFamily": "benign-signal",
+      "split": "development",
+      "source": "SQS",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "SQS caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "other",
+      "expectedRequiresAttention": true,
+      "counterpartOf": "empty-poll",
+      "categoryReason": "The visible Observation observation and workflow evidence support a local defect, input/consistency condition, or unknown cause: Long poll returned no messages. None establishes a rate, access, or downstream availability cause.",
+      "attentionReason": "workflow=statement-delivery; receives empty; queue visible and in-flight counts=0; billing reconciliation has 86 paid statements without delivery receipts; publisher and consumer traces missing; statement deadline in 2m; cause not established",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "2cf789460af3939c",
+      "scenario": "write-retry",
+      "scenarioFamily": "burst",
+      "split": "development",
+      "source": "DynamoDB",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "DynamoDB caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "throttling",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "throttling is supported by The level of configured provisioned throughput for the table was exceeded. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=bookmark-save; one write rejected; application retry committed at 09:59:36Z; write acknowledgements=401/401; duplicate records=0",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "fb390e325f73b41f",
+      "scenario": "unsupported-route",
+      "scenarioFamily": "input-validation",
+      "split": "development",
+      "source": "API Gateway",
+      "environment": "production",
+      "difficulty": "direct",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "apigw-rest-json",
+          "source": "API Gateway REST access",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "other",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "The visible MISSING_AUTHENTICATION_TOKEN observation and workflow evidence support a local defect, input/consistency condition, or unknown cause: Missing Authentication Token. None establishes a rate, access, or downstream availability cause.",
+      "attentionReason": "workflow=route-probe; request used removed route; no authorizer attached to this method; published customer route returned 200 on 700/700; no customer use of removed path",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "MISSING_AUTHENTICATION_TOKEN also covers an unsupported route; this case visibly uses a removed route without an authorizer, so retain other."
+    },
+    {
+      "id": "43f4414fb76aa7a0",
+      "scenario": "alias-permission",
+      "scenarioFamily": "policy",
+      "split": "development",
+      "source": "Lambda",
+      "environment": "production",
+      "difficulty": "direct",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "lambda-node22-text",
+          "source": "Lambda orchestrator",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "authentication",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "authentication is supported by Caller is not authorized to perform lambda:InvokeFunction. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=order-routing; new alias denies active execution role; rejected calls=460/460 in 6m; unassigned paid orders=460",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "7b83748d0a7a9a86",
+      "scenario": "hot-partition-cache",
+      "scenarioFamily": "hot-partition",
+      "split": "held-out",
+      "source": "DynamoDB",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "DynamoDB caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "throttling",
+      "expectedRequiresAttention": false,
+      "counterpartOf": "gsi-hot-key",
+      "categoryReason": "throttling is supported by The level of configured provisioned throughput for the index was exceeded. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=product-search; GSI index reads rejected during hot-key burst; version-matched local index served all 1000 searches; freshness age=20s within 60s contract; latest cache refresh completed; no searches waiting",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "af935dfdcf2fb10a",
+      "scenario": "kms-request-rate",
+      "scenarioFamily": "kms-quota",
+      "split": "held-out",
+      "source": "SQS",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "SQS caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "throttling",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "throttling is supported by The request was denied due to request throttling. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=invoice-enqueue; encrypted queue sends rejected=350/360; KMS request rate at configured limit; customer invoices not enqueued=350",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "89d4dc0dc52115ac",
+      "scenario": "storage-unavailable",
+      "scenarioFamily": "storage",
+      "split": "development",
+      "source": "RDS PostgreSQL",
+      "environment": "production",
+      "difficulty": "uncertain",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-pg16-stderr",
+          "source": "RDS PostgreSQL 16 stderr",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "dependency_failure",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "dependency_failure is supported by could not extend file \"base/16384/16400\": No space left on device. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=order-write; free storage=0 bytes; writes fail=270/270 for 8m; paid orders cannot commit; read-only health checks still pass",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "a6d810ec8d38f1be",
+      "scenario": "invalid-sql-test",
+      "scenarioFamily": "input-validation",
+      "split": "development",
+      "source": "RDS MySQL",
+      "environment": "staging",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-mysql80-general",
+          "source": "RDS MySQL 8.0 writer general",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "node24-client-json",
+          "source": "RDS MySQL caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "other",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "The visible ER_PARSE_ERROR observation and workflow evidence support a local defect, input/consistency condition, or unknown cause: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FROM orders' at line 1. None establishes a rate, access, or downstream availability cause.",
+      "attentionReason": "workflow=query-builder-test; synthetic malformed SELECT rejected; production reads=750/750; no real customer rows used",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "ccb8783a220c71d6",
+      "scenario": "authorizer-deny",
+      "scenarioFamily": "policy",
+      "split": "development",
+      "source": "API Gateway",
+      "environment": "production",
+      "difficulty": "direct",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "apigw-rest-json",
+          "source": "API Gateway REST access",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "authentication",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "authentication is supported by User is not authorized to access this resource. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=checkout-submit; authorizer policy deployment denied 560/570 active sessions; same sessions passed token validation probe; payment submissions blocked",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "b4cd7f77cfd1a16d",
+      "scenario": "consumer-policy",
+      "scenarioFamily": "policy",
+      "split": "development",
+      "source": "SQS",
+      "environment": "production",
+      "difficulty": "direct",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "SQS caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "authentication",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "authentication is supported by Access to the resource is denied. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=refunds; active worker role denied; oldest message rose from 120s to 2100s over 33m; refunds past 15m target=182",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "331b51a965e0b2e3",
+      "scenario": "region-shared-cap",
+      "scenarioFamily": "account-cap",
+      "split": "development",
+      "source": "Lambda",
+      "environment": "staging",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "lambda-node22-text",
+          "source": "Lambda orchestrator",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "throttling",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "throttling is supported by ConcurrentInvocationLimitExceeded. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=shipping-labels; production dispatcher now sends paid shipping work to this stage; function reserved concurrency unset; regional concurrent executions=1000/1000; labels waiting=922; oldest wait=17m; dispatch deadline in 4m",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "96b1c1c6d8fc2ce6",
+      "scenario": "db-connection-limit",
+      "scenarioFamily": "connection-cap",
+      "split": "development",
+      "source": "RDS PostgreSQL",
+      "environment": "production",
+      "difficulty": "direct",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-pg16-stderr",
+          "source": "RDS PostgreSQL 16 stderr",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "throttling",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "throttling is supported by too many connections for database \"appdb\". The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=order-ledger; appdb connection limit=40; new connection rejects=420/430; paid orders waiting=420; rejection continues",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "7cc67947a6974d1c",
+      "scenario": "child-concurrency",
+      "scenarioFamily": "concurrency",
+      "split": "development",
+      "source": "Lambda",
+      "environment": "production",
+      "difficulty": "direct",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "lambda-node22-text",
+          "source": "Lambda orchestrator",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "throttling",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "throttling is supported by ConcurrentInvocationLimitExceeded. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=checkout; child reserved concurrency=4; rejected invocations=381 in last 10m; completed checkouts=19/400; newest request also rejected",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "aa2a9376482ea968",
+      "scenario": "expired-worker",
+      "scenarioFamily": "credentials",
+      "split": "development",
+      "source": "SQS",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "SQS caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "authentication",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "authentication is supported by The request was not made using valid credentials. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=notification-ack; old session rejected; refreshed worker deleted the same message at 09:59:26Z; pending acknowledgements=0; duplicate notifications=0",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "747467a5a68e11e2",
+      "scenario": "revoked-table-policy",
+      "scenarioFamily": "policy",
+      "split": "development",
+      "source": "DynamoDB",
+      "environment": "production",
+      "difficulty": "direct",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "DynamoDB caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "authentication",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "authentication is supported by Caller is not authorized to perform dynamodb:GetItem. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=subscription-check; role policy changed at 09:51; access failures=502/510; affected customers cannot open paid content",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "2aab19e33be2a321",
+      "scenario": "client-budget-unknown",
+      "scenarioFamily": "unknown-timeout",
+      "split": "held-out",
+      "source": "RDS MySQL",
+      "environment": "production",
+      "difficulty": "uncertain",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-mysql80-general",
+          "source": "RDS MySQL 8.0 observer replica general",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "node24-client-json",
+          "source": "RDS MySQL caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "other",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "The visible Observation observation and workflow evidence support a local defect, input/consistency condition, or unknown cause: Caller stopped waiting; database outcome not captured. None establishes a rate, access, or downstream availability cause.",
+      "attentionReason": "workflow=optional-recommendations; one caller deadline; database trace cannot correlate the query; subsequent requests=2100/2100; no queue growth",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "No visible causal trace: retain other. An isolated recovered observation does not establish ongoing material harm."
+    },
+    {
+      "id": "803feabcf08dd9f4",
+      "scenario": "retired-role-probe",
+      "scenarioFamily": "policy",
+      "split": "development",
+      "source": "Lambda",
+      "environment": "production",
+      "difficulty": "direct",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "lambda-node22-text",
+          "source": "Lambda orchestrator",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "authentication",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "authentication is supported by Caller is not authorized to perform lambda:InvokeFunction. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=role-policy-check; old role test rejected; active role completed 150/150 child calls; no queued customer work",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "ac2a77ccbf9be4ce",
+      "scenario": "body-regression",
+      "scenarioFamily": "application-defect",
+      "split": "development",
+      "source": "API Gateway",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "apigw-rest-json",
+          "source": "API Gateway REST access",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "other",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "The visible BAD_REQUEST_BODY observation and workflow evidence support a local defect, input/consistency condition, or unknown cause: Request body validation failed. None establishes a rate, access, or downstream availability cause.",
+      "attentionReason": "workflow=renewal-submit; released client omits new required field; 322/330 renewing subscribers rejected in 8m; backend sees only 8 requests",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "86981b28e6fb52fb",
+      "scenario": "unclear-cancel",
+      "scenarioFamily": "unknown-timeout",
+      "split": "held-out",
+      "source": "RDS PostgreSQL",
+      "environment": "production",
+      "difficulty": "uncertain",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-pg16-stderr",
+          "source": "RDS PostgreSQL 16 stderr",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "other",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "The visible ERROR observation and workflow evidence support a local defect, input/consistency condition, or unknown cause: canceling statement due to user request. None establishes a rate, access, or downstream availability cause.",
+      "attentionReason": "workflow=status-refresh; single client cancellation; caller span missing; later status reads=1600/1600; no repeated delay or backlog",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "No visible causal trace: retain other. An isolated recovered observation does not establish ongoing material harm."
+    },
+    {
+      "id": "abf46ab8459d643a",
+      "scenario": "signature-skew",
+      "scenarioFamily": "signature",
+      "split": "held-out",
+      "source": "API Gateway",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "apigw-rest-json",
+          "source": "API Gateway REST access",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "authentication",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "authentication is supported by The request signature we calculated does not match. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=partner-status; one signing test rejected; current partner client completed 200/200 status reads; no overdue confirmations",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "59ad5885b269feac",
+      "scenario": "mapping-release",
+      "scenarioFamily": "schema-change",
+      "split": "held-out",
+      "source": "API Gateway",
+      "environment": "production",
+      "difficulty": "direct",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "apigw-rest-json",
+          "source": "API Gateway REST access",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "other",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "The visible API_CONFIGURATION_ERROR observation and workflow evidence support a local defect, input/consistency condition, or unknown cause: Invalid API configuration. None establishes a rate, access, or downstream availability cause.",
+      "attentionReason": "workflow=payment-submit; mapping deployment changed required integration field; 480/480 requests fail before backend; captured payment submissions waiting=480",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "cf53aba610c826cb",
+      "scenario": "revoked-user-check",
+      "scenarioFamily": "credentials",
+      "split": "development",
+      "source": "RDS MySQL",
+      "environment": "production",
+      "difficulty": "uncertain",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-mysql80-general",
+          "source": "RDS MySQL 8.0 observer replica general",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "node24-client-json",
+          "source": "RDS MySQL caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "authentication",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "authentication is supported by Access denied for user 'worker'@'192.0.2.44' (using password: YES). The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=retired-user-check; removed service account probe failed; new service account processed 510/510 customer statements; queue empty",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "ae4d2a604a186b82",
+      "scenario": "gsi-hot-key",
+      "scenarioFamily": "hot-partition",
+      "split": "held-out",
+      "source": "DynamoDB",
+      "environment": "production",
+      "difficulty": "direct",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "DynamoDB caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "throttling",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "throttling is supported by The level of configured provisioned throughput for the index was exceeded. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=product-search; GSI consumed read units=100/100; throttled index reads=1880 in 10m; search requests failed=720/1000",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "f10924c2da285458",
+      "scenario": "delete-pressure-recovered",
+      "scenarioFamily": "consumer-cap",
+      "split": "development",
+      "source": "SQS",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "SQS caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "throttling",
+      "expectedRequiresAttention": false,
+      "counterpartOf": "delete-pressure",
+      "categoryReason": "throttling is supported by The request was denied due to request throttling. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=payment-confirmation; two delete calls rejected; delayed acknowledgements later succeeded; unique confirmations=710/710; in-flight messages=0; oldest pending confirmation=0s; latest worker poll healthy",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "d655623f3005a686",
+      "scenario": "dns-partner",
+      "scenarioFamily": "dns",
+      "split": "development",
+      "source": "Lambda",
+      "environment": "production",
+      "difficulty": "uncertain",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "lambda-node22-text",
+          "source": "Lambda orchestrator",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "dependency_failure",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "dependency_failure is supported by getaddrinfo ENOTFOUND fraud.example.invalid. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=payment-review; partner DNS lookup failed on 63 consecutive requests over 6m; paid orders waiting=63; review deadline in 3m",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "57a443f5bb627dda",
+      "scenario": "loop-defect",
+      "scenarioFamily": "application-defect",
+      "split": "development",
+      "source": "Lambda",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "lambda-node22-text",
+          "source": "Lambda orchestrator",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "other",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "The visible RangeError observation and workflow evidence support a local defect, input/consistency condition, or unknown cause: Maximum call stack size exceeded. None establishes a rate, access, or downstream availability cause.",
+      "attentionReason": "workflow=settlement-export; recursion error for every batch=34/34 in 11m; settlement deadline in 5m; no export file written",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "760809d33d4d589c",
+      "scenario": "schema-deploy",
+      "scenarioFamily": "schema-change",
+      "split": "held-out",
+      "source": "Lambda",
+      "environment": "production",
+      "difficulty": "direct",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "lambda-node22-text",
+          "source": "Lambda orchestrator",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "other",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "The visible TypeError observation and workflow evidence support a local defect, input/consistency condition, or unknown cause: Cannot read properties of undefined (reading 'sku'). None establishes a rate, access, or downstream availability cause.",
+      "attentionReason": "workflow=order-ingest; new payload schema received; transform errors=718/730 since release 12m ago; paid orders pending=718",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "8b17c08a2e64a96b",
+      "scenario": "retired-table-canary",
+      "scenarioFamily": "policy",
+      "split": "development",
+      "source": "DynamoDB",
+      "environment": "production",
+      "difficulty": "uncertain",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "DynamoDB caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "authentication",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "authentication is supported by Caller is not authorized to perform dynamodb:Scan. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=legacy-table-canary; read denied on retired table; current table served all 1400 requests; old canary excluded from customer path",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "77438bf0bee63d3f",
+      "scenario": "unused-target-role",
+      "scenarioFamily": "policy",
+      "split": "development",
+      "source": "Lambda",
+      "environment": "production",
+      "difficulty": "uncertain",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "lambda-node22-text",
+          "source": "Lambda orchestrator",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "authentication",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "authentication is supported by Caller is not authorized to perform lambda:InvokeFunction. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=report-preview; preview feature disabled for customers; single deployment smoke check rejected; scheduled statements delivered=600/600",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "7a808fd957ee3dc8",
+      "scenario": "queue-typo",
+      "scenarioFamily": "missing-resource",
+      "split": "held-out",
+      "source": "SQS",
+      "environment": "production",
+      "difficulty": "direct",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "SQS caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "other",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "The visible QueueDoesNotExist observation and workflow evidence support a local defect, input/consistency condition, or unknown cause: The specified queue does not exist. None establishes a rate, access, or downstream availability cause.",
+      "attentionReason": "workflow=shipment-create; publisher points to deleted queue URL after deployment; rejected events=312/312; shipping labels waiting=312",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "89220dfa30a9364c",
+      "scenario": "method-budget",
+      "scenarioFamily": "burst",
+      "split": "development",
+      "source": "API Gateway",
+      "environment": "production",
+      "difficulty": "direct",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "apigw-rest-json",
+          "source": "API Gateway REST access",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "throttling",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "throttling is supported by Method request rate exceeded. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=order-submit; configured method rate=5/s; attempted=40/s; rejected=1850 in 10m; purchases incomplete=720",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "27d4a2b8facea029",
+      "scenario": "endpoint-reset",
+      "scenarioFamily": "network-reset",
+      "split": "held-out",
+      "source": "SQS",
+      "environment": "production",
+      "difficulty": "direct",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "SQS caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "dependency_failure",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "dependency_failure is supported by read ECONNRESET. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=fulfillment; worker connections reset continuously for 14m; queue age=37m; warehouse dispatch cutoff in 6m; paid orders waiting=260",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "9884b0d93094b134",
+      "scenario": "removed-table",
+      "scenarioFamily": "missing-resource",
+      "split": "held-out",
+      "source": "RDS MySQL",
+      "environment": "production",
+      "difficulty": "direct",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-mysql80-general",
+          "source": "RDS MySQL 8.0 writer general",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "node24-client-json",
+          "source": "RDS MySQL caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "other",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "The visible ER_NO_SUCH_TABLE observation and workflow evidence support a local defect, input/consistency condition, or unknown cause: Table 'appdb.orders_v2' doesn't exist. None establishes a rate, access, or downstream availability cause.",
+      "attentionReason": "workflow=customer-orders; application points at absent table; requests fail=890/900 over 9m; customer order views unavailable",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "534cc3deb3f3cdba",
+      "scenario": "sig-refresh",
+      "scenarioFamily": "signature",
+      "split": "held-out",
+      "source": "DynamoDB",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "DynamoDB caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "authentication",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "authentication is supported by The request signature does not conform to AWS standards. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=stock-audit; one malformed signer request; replacement signer completed audit at 09:59:48Z; checkout stock reads=820/820",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "cd5aa9797d920c67",
+      "scenario": "dedupe-test",
+      "scenarioFamily": "conditional-write",
+      "split": "development",
+      "source": "SQS",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "SQS caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "other",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "The visible InvalidParameterValue observation and workflow evidence support a local defect, input/consistency condition, or unknown cause: The value for MessageDeduplicationId is invalid. None establishes a rate, access, or downstream availability cause.",
+      "attentionReason": "workflow=publisher-test; invalid deduplication input rejected in test queue; production messages=780/780; oldest production message=2s",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "c363f705f1fa7c49",
+      "scenario": "offline-cap",
+      "scenarioFamily": "rate-probe",
+      "split": "development",
+      "source": "RDS MySQL",
+      "environment": "production",
+      "difficulty": "direct",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-mysql80-general",
+          "source": "RDS MySQL 8.0 observer replica general",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "node24-client-json",
+          "source": "RDS MySQL caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "throttling",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "throttling is supported by Too many connections. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=offline-audit; optional audit connection rejected; customer pooled sessions continue; purchases committed=2400/2400; audit due tomorrow",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "391c4d33b54510de",
+      "scenario": "queue-key-policy",
+      "scenarioFamily": "kms-access",
+      "split": "development",
+      "source": "SQS",
+      "environment": "staging",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "SQS caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "authentication",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "authentication is supported by The caller does not have the required KMS access. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=settlement-events; live settlement publisher is using this stage queue after routing change; key policy removed sender grant; messages rejected=67/67 in 5m; settlement batches due in 4m cannot start",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "228ec5395d9c60bd",
+      "scenario": "tls-cert",
+      "scenarioFamily": "tls",
+      "split": "development",
+      "source": "SQS",
+      "environment": "production",
+      "difficulty": "uncertain",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "SQS caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "dependency_failure",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "dependency_failure is supported by certificate has expired. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=booking-events; local HTTPS proxy certificate expired; sends fail before service response; 165 confirmed bookings await downstream tickets; oldest wait=23m",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "da83692cd5551ee5",
+      "scenario": "send-retry",
+      "scenarioFamily": "remote-timeout",
+      "split": "development",
+      "source": "SQS",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "SQS caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "dependency_failure",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "dependency_failure is supported by Socket timed out without establishing a connection. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=alert-delivery; first call timed out before connection; application retry accepted at 09:59:25Z; unique alert receipts=30/30; duplicate alerts=0",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "e9f15934109a7876",
+      "scenario": "dns-recovered",
+      "scenarioFamily": "dns",
+      "split": "development",
+      "source": "DynamoDB",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "DynamoDB caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "dependency_failure",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "dependency_failure is supported by getaddrinfo ENOTFOUND dynamodb.us-east-1.amazonaws.com. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=feature-read; one resolver failure; alternate resolver returned records at 09:59:08Z; customer requests=920/920 using last valid flags",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "bbd3cb72fdfaa9fe",
+      "scenario": "writer-offline",
+      "scenarioFamily": "db-shutdown",
+      "split": "development",
+      "source": "RDS MySQL",
+      "environment": "production",
+      "difficulty": "direct",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-mysql80-general",
+          "source": "RDS MySQL 8.0 observer replica general",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "node24-client-json",
+          "source": "RDS MySQL caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "dependency_failure",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "dependency_failure is supported by connect ECONNREFUSED 192.0.2.60:3306. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=invoice-store; writer endpoint refuses connections on 62/62 attempts in 11m; paid invoices pending=620; no replacement writer connected",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "c7e41c0989b054ec",
+      "scenario": "duplicate-insert",
+      "scenarioFamily": "conditional-write",
+      "split": "development",
+      "source": "RDS MySQL",
+      "environment": "production",
+      "difficulty": "direct",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-mysql80-general",
+          "source": "RDS MySQL 8.0 writer general",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "node24-client-json",
+          "source": "RDS MySQL caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "other",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "The visible ER_DUP_ENTRY observation and workflow evidence support a local defect, input/consistency condition, or unknown cause: Duplicate entry '7' for key 'receipts.PRIMARY'. None establishes a rate, access, or downstream availability cause.",
+      "attentionReason": "workflow=receipt-import; replay duplicated an existing key; original receipt confirmed; unique receipts=620/620; no extra charges",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "2db006102d7d08b4",
+      "scenario": "revoke-table",
+      "scenarioFamily": "policy",
+      "split": "development",
+      "source": "RDS PostgreSQL",
+      "environment": "production",
+      "difficulty": "direct",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-pg16-stderr",
+          "source": "RDS PostgreSQL 16 stderr",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "authentication",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "authentication is supported by permission denied for table orders. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=order-history; reader grant revoked; reads fail=810/820 in 9m; authenticated customers cannot load order history",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "cbaa8eae9e2d224b",
+      "scenario": "bad-payload",
+      "scenarioFamily": "input-validation",
+      "split": "development",
+      "source": "Lambda",
+      "environment": "production",
+      "difficulty": "direct",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "lambda-node22-text",
+          "source": "Lambda orchestrator",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "other",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "The visible SyntaxError observation and workflow evidence support a local defect, input/consistency condition, or unknown cause: Unexpected end of JSON input. None establishes a rate, access, or downstream availability cause.",
+      "attentionReason": "workflow=event-import; one malformed synthetic probe quarantined; customer events processed=740/740; retry queue empty",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "413841a7cd5c02a8",
+      "scenario": "signed-region",
+      "scenarioFamily": "signature",
+      "split": "held-out",
+      "source": "Lambda",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "lambda-node22-text",
+          "source": "Lambda orchestrator",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "authentication",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "authentication is supported by Signature expired. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=account-activation; signed calls rejected=290/300 in 9m; clock offset on signer=11m; activation confirmations pending=290",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "b1f56ae5bf5f3332",
+      "scenario": "tax-cache",
+      "scenarioFamily": "fallback",
+      "split": "development",
+      "source": "Lambda",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "lambda-node22-text",
+          "source": "Lambda orchestrator",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "dependency_failure",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "dependency_failure is supported by Service Unavailable. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=checkout-tax; live tax fetches failed=18; versioned fallback calculations passed reconciliation for all 18; purchases=980/980; fallback valid for next 2h",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "92073d0e6b7603ca",
+      "scenario": "maintenance-cap",
+      "scenarioFamily": "rate-probe",
+      "split": "development",
+      "source": "RDS PostgreSQL",
+      "environment": "production",
+      "difficulty": "direct",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-pg16-stderr",
+          "source": "RDS PostgreSQL 16 stderr",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "throttling",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "throttling is supported by too many connections for database \"appdb\". The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=maintenance-scan; database cap rejected one optional scan; customer session pool already connected; customer transactions committed=3100/3100; scan deadline slack=20h",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "3957714def5044dd",
+      "scenario": "malformed-probe",
+      "scenarioFamily": "input-validation",
+      "split": "development",
+      "source": "DynamoDB",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "DynamoDB caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "other",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "The visible ValidationException observation and workflow evidence support a local defect, input/consistency condition, or unknown cause: Query condition missed key schema element: pk. None establishes a rate, access, or downstream availability cause.",
+      "attentionReason": "workflow=query-builder-test; generated malformed request rejected in isolated test table; production search success=600/600; no unprocessed work",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "f468117896ddf530",
+      "scenario": "missing-optional-resource",
+      "scenarioFamily": "missing-resource",
+      "split": "held-out",
+      "source": "DynamoDB",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "DynamoDB caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "other",
+      "expectedRequiresAttention": false,
+      "counterpartOf": "wrong-table",
+      "categoryReason": "The visible ResourceNotFoundException observation and workflow evidence support a local defect, input/consistency condition, or unknown cause: Requested resource not found. None establishes a rate, access, or downstream availability cause.",
+      "attentionReason": "workflow=pricing-audit; optional audit lookup targeted a deleted table; primary price table served 850/850 customer lookups; purchases completed=850/850; audit scheduled for next week; no pending price decisions",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "e81e6992c9692d30",
+      "scenario": "stale-password",
+      "scenarioFamily": "credentials",
+      "split": "development",
+      "source": "RDS PostgreSQL",
+      "environment": "production",
+      "difficulty": "direct",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-pg16-stderr",
+          "source": "RDS PostgreSQL 16 stderr",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "authentication",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "authentication is supported by password authentication failed for user \"worker\". The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=credential-probe; old secret version rejected; active secret connected and committed at 09:59:12Z; production transactions=1900/1900",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "9ea37c75c98a4979",
+      "scenario": "readonly-promotion",
+      "scenarioFamily": "db-shutdown",
+      "split": "development",
+      "source": "RDS PostgreSQL",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-pg16-stderr",
+          "source": "RDS PostgreSQL 16 stderr",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "dependency_failure",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "dependency_failure is supported by cannot execute INSERT in a read-only transaction. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=receipt-failover; client was on known recovery replica during promotion; retry on writer committed receipt at 09:59:01Z; outstanding receipts=0",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Known recovery replica during failover supports dependency unavailability rather than an unexplained read-only application setting."
+    },
+    {
+      "id": "8d24f8d89b859730",
+      "scenario": "kms-optional-audit",
+      "scenarioFamily": "kms-access",
+      "split": "development",
+      "source": "DynamoDB",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "DynamoDB caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "authentication",
+      "expectedRequiresAttention": false,
+      "counterpartOf": "kms-key-denial",
+      "categoryReason": "authentication is supported by Access to the encryption key was denied. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=journal-audit; optional duplicate audit sink rejected encryption-key access; required journal committed 230/230 transactions through the primary sink; reconciliation current; optional audit due in 3 days",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "c4304550f30ea252",
+      "scenario": "timeout-retry",
+      "scenarioFamily": "remote-timeout",
+      "split": "development",
+      "source": "API Gateway",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "apigw-rest-json",
+          "source": "API Gateway REST access",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "dependency_failure",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "dependency_failure is supported by Endpoint request timed out. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=tracking; one integration deadline; retry returned current shipment position at 09:59:46Z; tracking success=1200/1200 after retry; repeated 504s=0",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "02e023f8be35ef03",
+      "scenario": "global-slot-cap",
+      "scenarioFamily": "concurrency",
+      "split": "development",
+      "source": "RDS PostgreSQL",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-pg16-stderr",
+          "source": "RDS PostgreSQL 16 stderr",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "throttling",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "throttling is supported by sorry, too many clients already. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=login-sessions; database client slots exhausted; new sessions rejected=610/620 over 10m; existing session health checks pass",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "05799aaea0075d6b",
+      "scenario": "burst-cache",
+      "scenarioFamily": "fallback",
+      "split": "development",
+      "source": "API Gateway",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "apigw-rest-json",
+          "source": "API Gateway REST access",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "throttling",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "throttling is supported by Stage request rate exceeded. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=public-catalog; origin 429s=45; edge served same version from cache for all 45; page success=3900/3900; cache freshness within contract",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "a19430092a7bc68c",
+      "scenario": "database-grant",
+      "scenarioFamily": "policy",
+      "split": "development",
+      "source": "RDS MySQL",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-mysql80-general",
+          "source": "RDS MySQL 8.0 observer replica general",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "node24-client-json",
+          "source": "RDS MySQL caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "authentication",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "authentication is supported by Access denied for user 'worker'@'192.0.2.44' to database 'appdb'. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=wallet-read; worker database grant revoked; connection failures=290/290 since 09:53; customer balances unavailable",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "4d0c225c5d43f94d",
+      "scenario": "duplicate-id",
+      "scenarioFamily": "conditional-write",
+      "split": "development",
+      "source": "RDS PostgreSQL",
+      "environment": "production",
+      "difficulty": "direct",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-pg16-stderr",
+          "source": "RDS PostgreSQL 16 stderr",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "other",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "The visible ERROR observation and workflow evidence support a local defect, input/consistency condition, or unknown cause: duplicate key value violates unique constraint \"receipts_pkey\". None establishes a rate, access, or downstream availability cause.",
+      "attentionReason": "workflow=receipt-idempotency; repeated event used existing receipt ID; original receipt delivered; unique receipts=720/720; duplicate sends=0",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "a1ba91046a6f6d26",
+      "scenario": "cache-read",
+      "scenarioFamily": "network-reset",
+      "split": "held-out",
+      "source": "RDS MySQL",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-mysql80-general",
+          "source": "RDS MySQL 8.0 observer replica general",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "node24-client-json",
+          "source": "RDS MySQL caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "dependency_failure",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "dependency_failure is supported by Connection lost: The server closed the connection.. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=rate-display; read connection lost; signed daily-rate snapshot served all 300 affected reads; quotes reconcile; snapshot expires tomorrow",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "1e5c7890509a8dc6",
+      "scenario": "role-cap-cohort",
+      "scenarioFamily": "consumer-cap",
+      "split": "development",
+      "source": "RDS PostgreSQL",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-pg16-stderr",
+          "source": "RDS PostgreSQL 16 stderr",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "throttling",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "throttling is supported by too many connections for role \"worker\". The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=payout-writer; worker role capped at one session; long-running batch holds it; new payout connections rejected=180; oldest payout wait=38m; promised wait=15m",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "440f65aa8020a9cc",
+      "scenario": "failover-reconnect",
+      "scenarioFamily": "db-shutdown",
+      "split": "development",
+      "source": "RDS PostgreSQL",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-pg16-stderr",
+          "source": "RDS PostgreSQL 16 stderr",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "dependency_failure",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "dependency_failure is supported by terminating connection due to administrator command. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=receipt-store; planned failover dropped one session; new writer committed pending receipt at 09:59:04Z; acknowledgements=850/850; queue empty",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "703705ee66830901",
+      "scenario": "probe-rate",
+      "scenarioFamily": "rate-probe",
+      "split": "development",
+      "source": "Lambda",
+      "environment": "staging",
+      "difficulty": "direct",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "lambda-node22-text",
+          "source": "Lambda orchestrator",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "throttling",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "throttling is supported by ReservedFunctionConcurrentInvocationLimitExceeded. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=capacity-probe; test completed; synthetic invocations only; production dispatch=810/810; pending production jobs=0",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "4f1bb86008e0c0c5",
+      "scenario": "expired-client",
+      "scenarioFamily": "credentials",
+      "split": "development",
+      "source": "API Gateway",
+      "environment": "production",
+      "difficulty": "direct",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "apigw-rest-json",
+          "source": "API Gateway REST access",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "authentication",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "authentication is supported by The security token included in the request is expired. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=profile-read; one old signed session rejected; refreshed session returned 200 at 09:59:09Z; active session reads=1200/1200",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "b7f8ec86531302c6",
+      "scenario": "wrong-table",
+      "scenarioFamily": "missing-resource",
+      "split": "held-out",
+      "source": "DynamoDB",
+      "environment": "production",
+      "difficulty": "direct",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "DynamoDB caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "other",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "The visible ResourceNotFoundException observation and workflow evidence support a local defect, input/consistency condition, or unknown cause: Requested resource not found. None establishes a rate, access, or downstream availability cause.",
+      "attentionReason": "workflow=pricing; deployment table name points to removed resource; price lookup errors=831/850 in 9m; purchases blocked=831",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "86b1366df8617b51",
+      "scenario": "writer-user-cap",
+      "scenarioFamily": "consumer-cap",
+      "split": "development",
+      "source": "RDS MySQL",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "rds-mysql80-general",
+          "source": "RDS MySQL 8.0 observer replica general",
+          "view": "raw downloaded file"
+        },
+        {
+          "profile": "node24-client-json",
+          "source": "RDS MySQL caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "throttling",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "throttling is supported by User worker already has more than 'max_user_connections' active connections. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=refund-store; role cap=1; stuck session holds only slot; refunds waiting=180; oldest wait=34m and rising",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "f5729b24465b33ec",
+      "scenario": "inventory-upstream",
+      "scenarioFamily": "upstream-http",
+      "split": "development",
+      "source": "Lambda",
+      "environment": "production",
+      "difficulty": "direct",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "lambda-node22-text",
+          "source": "Lambda orchestrator",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "dependency_failure",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "dependency_failure is supported by Service Unavailable. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=cart-reservation; inventory health checks=0/20; reservation failures=389/400 in 10m; latest reservation failed; no cache path configured",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "3efc6d0f0ec240b9",
+      "scenario": "reset-backend",
+      "scenarioFamily": "network-reset",
+      "split": "held-out",
+      "source": "API Gateway",
+      "environment": "production",
+      "difficulty": "uncertain",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "apigw-rest-json",
+          "source": "API Gateway REST access",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "dependency_failure",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "dependency_failure is supported by Integration failed. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=customer-exports; backend probe reports connection reset on 31/32 attempts; gateway export failures=31/32; legal delivery deadline in 5m",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "4e6319be106cf961",
+      "scenario": "on-demand-account",
+      "scenarioFamily": "account-cap",
+      "split": "development",
+      "source": "DynamoDB",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "DynamoDB caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "throttling",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "throttling is supported by Throughput exceeds the current throughput quota for your account. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=entitlement-read; table on-demand mode; reads rejected=662/700 in 8m; active paid sessions denied access=662",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "8395406dfba1f224",
+      "scenario": "service-internal",
+      "scenarioFamily": "upstream-http",
+      "split": "development",
+      "source": "DynamoDB",
+      "environment": "production",
+      "difficulty": "direct",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "DynamoDB caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "dependency_failure",
+      "expectedRequiresAttention": true,
+      "counterpartOf": null,
+      "categoryReason": "dependency_failure is supported by The server encountered an internal error trying to fulfill the request. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=wallet-transfer; 50 consecutive transaction requests returned 500 in 6m; transfers awaiting commit=50; no success after 09:54",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "642ae5b84a05bd7f",
+      "scenario": "receive-burst",
+      "scenarioFamily": "burst",
+      "split": "development",
+      "source": "SQS",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "SQS caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "throttling",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "throttling is supported by The request was denied due to request throttling. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=email-delivery; worker receive burst rejected twice; next poll returned pending messages at 09:59:36Z; oldest message=8s; all due email sent",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "bc1aa9142e4922c3",
+      "scenario": "oversize-test",
+      "scenarioFamily": "input-validation",
+      "split": "development",
+      "source": "API Gateway",
+      "environment": "staging",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "apigw-rest-json",
+          "source": "API Gateway REST access",
+          "view": "CloudWatch message strings"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "other",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "The visible REQUEST_TOO_LARGE observation and workflow evidence support a local defect, input/consistency condition, or unknown cause: HTTP content length exceeded 10485760 bytes. None establishes a rate, access, or downstream availability cause.",
+      "attentionReason": "workflow=upload-limit-test; synthetic oversized request rejected; production uploads=260/260; no customer records in test payload",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    },
+    {
+      "id": "fdb1629c43dce773",
+      "scenario": "dr-path",
+      "scenarioFamily": "network-reset",
+      "split": "held-out",
+      "source": "SQS",
+      "environment": "production",
+      "difficulty": "mixed",
+      "decisionCutoff": "2026-10-18T10:00:04.000Z",
+      "excerpts": [
+        {
+          "profile": "node24-client-json",
+          "source": "SQS caller stdout",
+          "view": "raw stdout"
+        },
+        {
+          "profile": "operations-v1",
+          "source": "operations",
+          "view": "synthetic worksheet"
+        }
+      ],
+      "expectedCategory": "dependency_failure",
+      "expectedRequiresAttention": false,
+      "counterpartOf": null,
+      "categoryReason": "dependency_failure is supported by read ECONNRESET. The affected operation and customer consequences are evaluated separately.",
+      "attentionReason": "workflow=shipment-notices; one worker lost network; second worker acknowledged every due message by 09:59; oldest message=3s; notices delivered=900/900",
+      "review": "Reviewed against decisions.js before provider answers; independent human annotation pending.",
+      "resolution": "Specific cause and decision-time impact reviewed separately; no category-only urgency rule."
+    }
+  ]
+}

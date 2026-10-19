@@ -1,0 +1,17 @@
+{
+  "name": "decision-api-aws-log-classifier",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "eval": "node main.js",
+    "eval:ollama": "node main.js --models all",
+    "models:ollama": "node main.js --list-models",
+    "compare:ollama": "node main.js --compare-models",
+    "compare": "node compare.js",
+    "test": "node --test"
+  }
+}
